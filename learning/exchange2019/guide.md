@@ -1,39 +1,44 @@
-### Part 1: System Requirements and Preparing Active Directory
 
-#### System Requirements
+### Setting Up Active Directory
 
-Before installing Exchange Server 2019, ensure your system meets the following requirements:
-- **Operating System**: Windows Server 2019 Standard or Datacenter.
-- **Processor**: 64-bit, compatible with x64 instruction set.
-- **Memory**: Minimum 128 GB RAM for Mailbox servers; 32 GB for Edge Transport servers.
-- **Disk Space**: At least 30 GB on the drive where you're installing Exchange. Plus, additional space for the mailbox database and log files.
-- **.NET Framework**: Version 4.8 or later.
-- **Other Software**: Visual C++ Redistributable Package for Visual Studio 2012, and Unified Communications Managed API 4.0.
+Before installing Exchange Server 2019, you must have Active Directory (AD) deployed. Here’s how to install AD on a Windows Server 2019 system:
 
-#### Preparing Active Directory
+1. **Install Windows Server 2019**: Install the OS on a server that will act as your Domain Controller (DC).
 
-1. **Extend the Active Directory Schema**: Exchange needs to add new attributes to the AD schema. Run the following command in PowerShell as an administrator:
+2. **Configure Static IP**: Assign a static IP address to this server. This is crucial for the stability of your AD environment.
+
+3. **Install Active Directory Domain Services (AD DS)**: Use PowerShell to install AD DS. Run PowerShell as Administrator and execute:
 
    ```powershell
-   Setup.exe /PrepareSchema /IAcceptExchangeServerLicenseTerms
+   Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
    ```
 
-2. **Prepare Active Directory**: This step creates the Exchange organization in AD. Execute:
+4. **Promote Server to a Domain Controller**: After installing AD DS, you need to promote the server to a domain controller. Use the following PowerShell command, replacing placeholders with your specific information:
 
    ```powershell
-   Setup.exe /PrepareAD /OrganizationName:"YourOrgName" /IAcceptExchangeServerLicenseTerms
+   Install-ADDSForest -DomainName "yourdomain.com" -InstallDNS -ForestMode Win2012R2 -DomainMode Win2012R2 -DatabasePath "C:\Windows\NTDS" -SysvolPath "C:\Windows\SYSVOL" -LogPath "C:\Windows\NTDS" -NoRebootOnCompletion -Force
    ```
 
-3. **Prepare Domains**: Prepares every domain in the Active Directory forest where Exchange will be installed or where mail-enabled users will be located.
+   **Note**: Choose your domain name, and adjust the forest and domain modes if necessary. This example uses Windows Server 2012 R2 modes for broad compatibility, but you should use the highest level that all domain controllers in the forest can support.
+
+### Installing Prerequisites for Exchange Server 2019
+
+Once Active Directory is set up, proceed to install the prerequisites for Exchange Server 2019. This includes Windows features and external dependencies like .NET Framework and Visual C++ Redistributable.
+
+1. **Install Required Windows Features**: Run the following command in PowerShell to install the necessary roles and features:
 
    ```powershell
-   Setup.exe /PrepareAllDomains /IAcceptExchangeServerLicenseTerms
+   Install-WindowsFeature AS-HTTP-Activation, Desktop-Experience, NET-Framework-45-Features, RPC-over-HTTP-proxy, RSAT-Clustering, RSAT-Clustering-CmdInterface, RSAT-Clustering-Mgmt, RSAT-Clustering-PowerShell, Web-Mgmt-Console, WAS-Process-Model, Web-Asp-Net45, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-Dir-Browsing, Web-Dyn-Compression, Web-Http-Errors, Web-Http-Logging, Web-Http-Redirect, Web-Http-Tracing, Web-ISAPI-Ext, Web-ISAPI-Filter, Web-Lgcy-Mgmt-Console, Web-Metabase, Web-Mgmt-Console, Web-Mgmt-Service, Web-Net-Ext45, Web-Request-Monitor, Web-Server, Web-Stat-Compression, Web-Static-Content, Web-Windows-Auth, Web-WMI, Windows-Identity-Foundation
    ```
 
-   **Note**: Replace `"YourOrgName"` with your actual organization's name. These steps require appropriate administrative privileges in your Active Directory environment.
+2. **Install .NET Framework 4.8**: Download and install the .NET Framework 4.8 from the official Microsoft website.
+
+3. **Install Visual C++ Redistributable**: Download and install the Visual C++ Redistributable for Visual Studio 2012 from the official Microsoft website.
+
+4. **Install Unified Communications Managed API 4.0**: This is required for certain Exchange Server functionalities. Download and install it from the Microsoft Download Center.
 
 ### Summary
 
-This section covered the basic system requirements for Exchange Server 2019 and the initial steps to prepare Active Directory for Exchange installation. Ensuring your environment meets these requirements and correctly preparing AD are crucial first steps before proceeding with the Exchange Server installation.
+This part has covered setting up Active Directory on Windows Server 2019 and installing the prerequisites necessary for Exchange Server 2019. Each step is crucial to ensure a smooth installation and operation of Exchange Server in your environment.
 
-In the next part, we'll discuss the installation process of Exchange Server 2019, focusing on PowerShell commands for a non-GUI setup.
+Next, we will delve into the installation process of Exchange Server 2019 itself, focusing on using PowerShell commands for setup without relying on the graphical user interface.
