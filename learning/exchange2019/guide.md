@@ -1,32 +1,39 @@
-### Introduction to Exchange Server 2019
+### Part 1: System Requirements and Preparing Active Directory
 
-Exchange Server 2019 is a product by Microsoft. It lets people send emails, manage calendars, and keep contacts in a company. It is made for use on Windows Server.
+#### System Requirements
 
-Exchange 2019 has many features. It helps with sending emails safely and working together in an office.
+Before installing Exchange Server 2019, ensure your system meets the following requirements:
+- **Operating System**: Windows Server 2019 Standard or Datacenter.
+- **Processor**: 64-bit, compatible with x64 instruction set.
+- **Memory**: Minimum 128 GB RAM for Mailbox servers; 32 GB for Edge Transport servers.
+- **Disk Space**: At least 30 GB on the drive where you're installing Exchange. Plus, additional space for the mailbox database and log files.
+- **.NET Framework**: Version 4.8 or later.
+- **Other Software**: Visual C++ Redistributable Package for Visual Studio 2012, and Unified Communications Managed API 4.0.
 
-### Installing Exchange Server 2019
+#### Preparing Active Directory
 
-First, you need Windows Server. Then, you set up roles and features needed for Exchange. Next, you install Exchange 2019 from the setup wizard or using commands.
+1. **Extend the Active Directory Schema**: Exchange needs to add new attributes to the AD schema. Run the following command in PowerShell as an administrator:
 
-### Key Features of Exchange Server 2019
+   ```powershell
+   Setup.exe /PrepareSchema /IAcceptExchangeServerLicenseTerms
+   ```
 
-- **Improved Security**: Exchange 2019 has better protection against threats. It keeps your emails safe.
+2. **Prepare Active Directory**: This step creates the Exchange organization in AD. Execute:
 
-- **Performance Enhancements**: It works faster, especially with large files. This makes your work easier.
+   ```powershell
+   Setup.exe /PrepareAD /OrganizationName:"YourOrgName" /IAcceptExchangeServerLicenseTerms
+   ```
 
-- **Better Calendar Management**: Managing meetings and appointments is simpler. This helps everyone stay on schedule.
+3. **Prepare Domains**: Prepares every domain in the Active Directory forest where Exchange will be installed or where mail-enabled users will be located.
 
-- **Mobile Access**: You can access your emails and calendar from anywhere. This is useful for working when not in the office.
+   ```powershell
+   Setup.exe /PrepareAllDomains /IAcceptExchangeServerLicenseTerms
+   ```
 
-### Administration and Management
+   **Note**: Replace `"YourOrgName"` with your actual organization's name. These steps require appropriate administrative privileges in your Active Directory environment.
 
-Exchange 2019 can be managed using a web-based interface called the Exchange Admin Center (EAC). You can also use PowerShell commands for more control.
+### Summary
 
-### High Availability and Disaster Recovery
+This section covered the basic system requirements for Exchange Server 2019 and the initial steps to prepare Active Directory for Exchange installation. Ensuring your environment meets these requirements and correctly preparing AD are crucial first steps before proceeding with the Exchange Server installation.
 
-Exchange 2019 uses Database Availability Groups (DAGs). This keeps email running even if some servers fail. It helps to prevent data loss.
-
-### Conclusion
-
-Exchange Server 2019 is a powerful tool for email and collaboration. It is designed to meet the needs of modern businesses. With its new features, it makes communication and scheduling easier and more secure.
-
+In the next part, we'll discuss the installation process of Exchange Server 2019, focusing on PowerShell commands for a non-GUI setup.
