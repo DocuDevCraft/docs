@@ -46,7 +46,7 @@ We want to write a Knowledge Base for Cloudzy users. First, I will send you the 
 We are going to write a YouTube script and record it for Cloudzy. First I will give you guidelines, once you receive it, just confirm and do not write anything.
 ```
 
-# YouTunbe Style
+# YouTube Style
 ```text
 YouTube Narration Text Guideline for Tutorial Videos
 
