@@ -1,3 +1,8 @@
+#Humanize
+```text
+- Use B1 English level and extremely simple vocabulary. 
+- Use a little bit of fragmentation and inconstancy, but do not make the content hard to follow.
+```
 # Short
 ```text
 each sentence in this section should take 3 sec to read out loud. So, divide sentences if required. Also, the Language level must be B1.
