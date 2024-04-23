@@ -1,7 +1,10 @@
 # Humanize
 ```text
-- Use B1 English level and extremely simple vocabulary. 
-- Use a little bit of fragmentation and inconstancy, but do not make the content hard to follow.
+- Use B1 English level and straightforward vocabulary. 
+- Use fragmentation and inconstancy, but do not make the content hard to follow.
+- Keep a conversational and semi-formal tone of voice.
+- Do not use non-technical examples.
+- Use active voice.
 ```
 # Short
 ```text
